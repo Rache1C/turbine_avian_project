@@ -6,7 +6,8 @@ import numpy as np
 # Load the pre-trained YOLOv5 model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # or 'yolov5m', 'yolov5l', 'yolov5x'
 
-# Simulated function to get the GPS coordinates of the camera
+# Simulated function to get the GPS coordinates of the camera, 
+# this will be changed to received a message from a live camera
 def get_camera_coordinates():
     # Example coordinates (latitude, longitude)
     return 34.0522, -118.2437
@@ -22,6 +23,9 @@ def is_bird(label):
 
 # Function to process detections and output coordinates
 def process_detections(image, results):
+    ''' this function processes the detection results, 
+    extracts the coordinates, 
+    and assigns categories to detected birds. '''
     labels, cords = results.xyxyn[0][:, -1], results.xyxyn[0][:, :-1]
     birds_detected = []
     for i in range(len(labels)):
@@ -42,10 +46,5 @@ results = detect_birds(image)
 bird_coordinates = process_detections(image, results)
 
 # Output the coordinates of detected birds
-# def lat_long_output(lat,lon):
-#     for idx, (lat, lon) in enumerate(bird_coordinates):
-#     bird_location = {"latitude": {lat}, "longitude": {lon}}
-#     return(bird_location)
-
 def lat_long_output():
     return bird_coordinates
